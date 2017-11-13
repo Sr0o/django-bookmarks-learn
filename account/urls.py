@@ -19,4 +19,5 @@ urlpatterns = [
 
 	url(r'^$', account_views.dashboard, name = 'dashboard'),
 	url(r'^register/$', account_views.register, name = 'register'),
+	url(r'^edit/$', account_views.edit, name = 'edit'),
 ]
