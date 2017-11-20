@@ -8,6 +8,6 @@ def ajax_required(func):
 	def wrapper(request, *args, **kw):
 		if not request.is_ajax():
 			return HttpResponseBadRequest()
-		return func(*args, **kw)
+		return func(request, *args, **kw)
 	return wrapper
 

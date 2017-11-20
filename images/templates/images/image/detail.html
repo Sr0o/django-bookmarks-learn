@@ -8,12 +8,12 @@
 	<img src="{{ im.url }}" class="image-detail">
 </a>
 {% endthumbnail %}
-{% with total_likes=image.user_like.count user_like = image.user_like.all%}
+{% with total_likes=image.user_like.count user_like=image.user_like.all%}
 <div class="image-info">
 	<div>
 		<span class="count">
 			<span class="total">{{ total_likes }}</span>
-			like{{ total_likes|pluralize }}
+			<span class="pluralize">like{{ total_likes|pluralize }}</span>
 		</span>
 		<a href="#" data-id="{{ image.id }}" data-action="{% if request.user in user_like %}un{% endif %}like" class="like button">
 			{% if request.user not in user_like %}Like{% else %}Unlike{% endif %}
@@ -22,11 +22,23 @@
 	{{ image.description|linebreaks }}
 </div>
 <div class="image_likes">
-	{% for user in image.users_like.all %}
-	<div>
-		<img src="{{ user.profile.photo.url }}">
+	{% if request.user in image.user_like.all %}
+	<div class="request-user">
+		{% if request.user.profile.photo %}
+		<img src="{{ request.user.profile.photo.url }}">
+		{% endif %}
 		<p>{{ user.username }}</p>
 	</div>
+	{% endif %}
+	{% for user in image.user_like.all %}
+	{% if user != request.user %}
+	<div>
+		{% if user.profile.photo %}
+		<img src="{{ user.profile.photo.url }}">
+		{% endif %}
+		<p>{{ user.username }}</p>
+	</div>
+	{% endif %}
 	{% empty %}
 	Nobody likes this image yet.
 	{% endfor %}
@@ -47,7 +59,11 @@ $('a.like').click(function (e) {
 				$('a.like').data('action', previous_action === 'like'? 'unlike': 'like');
 				$('a.like').text(previous_action === 'like'? 'Unlike': 'Like');
 				var previous_likes = parseInt($('span.count .total').text());
-				$('span.count .total').text(previous_action === 'like'? previous_likes + 1: previous_likes - 1);
+				now_likes = previous_action === 'like'? previous_likes + 1: previous_likes - 1;
+				$('span.count .total').text(now_likes);
+				$('div[class="request-user"]').html(previous_action === 'like'?'{% if request.user.profile.photo %}<img src="{{ request.user.profile.photo.url }}">{% endif %}<p>{{ user.username }}</p>': '');
+				var previous_like = $('span.pluralize').text();
+				$('span.pluralize').text(previous_like === 'likes'?'like': 'likes');
 			}
 		}
 	);
