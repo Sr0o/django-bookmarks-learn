@@ -14,7 +14,7 @@ class Image(models.Model):
 	description = models.TextField(blank = True)
 	created = models.DateTimeField(auto_now_add = True, db_index = True)
 	#image的所有者:
-	user = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name = 'images_created')
+	user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete = models.CASCADE, related_name = 'images_created')
 	#image的喜欢者:
 	user_like = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name = 'images_liked', blank = True)
 	

@@ -1,6 +1,6 @@
 (function () {
 	var jquery_version = '3.2.1';
-	var site_url = 'http://192.168.43.142:8000/';
+	var site_url = 'http://192.168.1.103:8000/';
 	var static_url = site_url + 'static/';
 	var min_width = 100;
 	var min_height = 100;
@@ -36,7 +36,7 @@
 	};
 
 	if (typeof window.jQuery !== 'undefined') {/* typeof---'undefined' 或 undefined*/
-		bookmarlet();
+		bookmarklet();
 	} else {
 		var conflict = typeof window.$ !== 'undefined';
 		var script = document.createElement('script');
