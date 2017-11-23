@@ -20,4 +20,7 @@ urlpatterns = [
 	url(r'^$', account_views.dashboard, name = 'dashboard'),
 	url(r'^register/$', account_views.register, name = 'register'),
 	url(r'^edit/$', account_views.edit, name = 'edit'),
+	url(r'^users/$', account_views.user_list, name = 'user_list'),
+	url(r'^users/follow/$', account_views.user_follow, name = 'user_follow'),
+	url(r'^users/(?P<username>[-\w]+)/$', account_views.user_detail, name = 'user_detail'),
 ]
