@@ -8,7 +8,7 @@ from actions.models import Action
 def create_action(user, verb, target = None):
 	now = timezone.now()
 	last_time = now - datetime.timedelta(seconds = 60)
-	similar_actions = Action.objects.filter(user_id = user.id, verb = verb, created__gte = last_minute)
+	similar_actions = Action.objects.filter(user_id = user.id, verb = verb, created__gte = last_time)
 	# user_id = user.id 就是查该user的id的actions,似乎_表示该models下的属性的属性,__而这个是该models下的属性.
 	if target:
 		target_ct = ContentType.objects.get_for_model(target)
